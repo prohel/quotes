@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :like]
 
   # GET /users
   # GET /users.json
@@ -61,10 +61,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def like
+    newLike = @user.likes.new
+    quote = Quote.find(params[:quote])
+    newLike.quote = quote
+    newLike.save
+    redirect_to quotes_path
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find(params[:id]) if params[:id]
+      @user = current_user
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
