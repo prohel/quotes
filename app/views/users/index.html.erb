@@ -13,7 +13,6 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= user.name %></td>
         <td><%= user.email %></td>
         <td><%= user.num_quotes %></td>
         <td><%= link_to 'Show', user %></td>
