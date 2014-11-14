@@ -61,6 +61,12 @@ class QuotesController < ApplicationController
     end
   end
 
+  def search
+     @quotes = Quote.where("text LIKE ? OR author LIKE ? ",
+     "%#{params[:search]}%", "%#{params[:search]}%")
+     render :template => "quotes/index"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_quote
