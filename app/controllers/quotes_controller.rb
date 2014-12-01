@@ -4,6 +4,9 @@ class QuotesController < ApplicationController
   # GET /quotes
   # GET /quotes.json
   def index
+    p = PennExtranetAdapter.new('prohel', 'StHuStFo1437')
+    o = p.authenticated_agent
+    p o.inspect
     @quotes = Quote.all
   end
 
@@ -15,6 +18,11 @@ class QuotesController < ApplicationController
   # GET /quotes/new
   def new
     @quote = Quote.new
+    respond_to do |format|
+      format.html
+      format.js
+      format.json
+    end
   end
 
   # GET /quotes/1/edit
@@ -25,13 +33,15 @@ class QuotesController < ApplicationController
   # POST /quotes.json
   def create
     @quote = Quote.new(quote_params)
-
     respond_to do |format|
       if @quote.save
+        @quotes = Quote.all
         format.html { redirect_to @quote, notice: 'Quote was successfully created.' }
-        format.json { render :show, status: :created, location: @quote }
+        format.js {render "create", :locals => {:error => 0, :quotes => @quotes}}
+        format.json { render json: @quote }
       else
         format.html { render :new }
+        format.js {render "create", :locals => {:error => 1}}
         format.json { render json: @quote.errors, status: :unprocessable_entity }
       end
     end

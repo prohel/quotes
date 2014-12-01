@@ -1,25 +1,52 @@
-<%= form_for(@quote) do |f| %>
-  <% if @quote.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@quote.errors.count, "error") %> prohibited this quote from being saved:</h2>
+<%= form_for @quote, :html => { :class => "form-horizontal quote" } do |f| %>
 
-      <ul>
-      <% @quote.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <% if @quote.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@quote.errors.count, "error") %> prohibited this quote from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @quote.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :author %><br>
-    <%= f.text_field :author %>
+  <div class="control-group">
+    <%= f.label :author, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :author, :class => 'form-control' %>
+    </div>
+    <%= error_span(@quote[:author]) %>
   </div>
-  <div class="field">
-    <%= f.label :text %><br>
-    <%= f.text_area :text %>
+  <div class="control-group">
+    <%= f.label :text, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :text, :class => 'form-control' %>
+    </div>
+    <%= error_span(@quote[:text]) %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+
+
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            quotes_path, :class => 'btn btn-default' %>
+  <script>
+  $('#new_quote').submit(function() {
+    var valuesToSubmit = $(this).serialize();
+    $.ajax({
+        type: "POST",
+        url: $(this).attr('action'), //sumbits it to the given url of the form
+        data: valuesToSubmit,
+        dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
+    }).success(function(json){
+        <%@quotes = Quote.all%>
+        $('#quotes_table').html("<%= j render ('quotes/list')%>");
+    });
+    return false; // prevents normal behaviour
+});
+  </script>
 <% end %>

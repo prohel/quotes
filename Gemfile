@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
 
+gem "therubyracer"
+gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+gem "twitter-bootstrap-rails"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 # Use sqlite3 as the database for Active Record
@@ -14,9 +17,24 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 gem 'devise'
-
+gem 'penn_extranet_adapter'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'mechanize'
+gem 'net-http-digest_auth'
+gem 'net-http-persistent'
+gem 'mime-types'
+gem 'unf_ext'
+gem 'unf'
+gem 'domain_name'
+gem 'http-cookie'
+gem 'mini_portile'
+gem 'nokogiri'
+
+gem 'ntlm-http'
+
+gem 'webrobots'
+
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
